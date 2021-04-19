@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="row">
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm.value)">
+      <span class="help-block" *ngIf="validations.email">
+        Please enter valid email!
+      </span>
+      <span class="help-block" *ngIf="validations.password">
+        Please enter valid password!
+      </span>
+      <span class="help-block" *ngIf="validations.confirmedpassword">
+        Please enter valid confirm password!
+      </span>
+      <div class="form-group">
+        <label for="email">Enter your email address</label>
+        <span> *</span>
+        <input type="text" id="email" formControlName="email" class="form-control">
+        <span *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">
+          Please enter a valid email!
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="subscription">Choose the subscription</label>
+        <span> *</span>
+        <select id="subscription" formControlName="subscription" class="form-control">
+          <option *ngFor="let subscription of subscriptions" [ngValue]="subscription">{{ subscription }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="password">Enter your password</label>
+        <span> *</span>
+        <input type="text" id="password" formControlName="password" class="form-control">
+        <span *ngIf="signupForm.get('password').invalid && signupForm.get('password').touched" class="help-block">
+          Password must be minimum 8 characters!
+          <br>
+          Password must contain minimum one number and one symbol!
+          <br>
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="confirmedpassword">Confirm your password</label>
+        <span> *</span>
+        <input type="text" id="confirmedpassword" formControlName="confirmedpassword" (focusout)="focusOutFunction()"
+          class="form-control">
+        <span *ngIf="passwordMatchInvalid && signupForm.get('confirmedpassword').touched" class="help-block">
+          Password does not match!
+        </span>
+      </div>
+      <button class="btn btn-success">Submit</button>
+      <div class="divider"></div>
+      <a class="btn btn-primary" (click)="onClear()">Clear</a>
+    </form>
+  </div>
+</div>
+<br>
+<br>
+
+<table *ngIf="signupArray.length > 0" class="table table-bordered" style="overflow-y: auto;">
+  <thead>
+    <tr>
+      <th>Email Address</th>
+      <th>Subscription Type </th>
+      <th>Start/Created Date </th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let signupData of signupArray">
+      <td>{{ signupData.email }}</td>
+      <td>{{ signupData.subscription }}</td>
+      <td>{{ signupData.startDate }}</td>
+    </tr>
+  </tbody>
+</table>
